@@ -20,7 +20,7 @@ function init(pokemonList, terms) {
         conds.push(fields.nick.val())
 
         $(this).val(_.filter(conds).join('&'))
-        fields.copy.attr('disabled', $(this).val().length === 0)
+        fields.copy.prop('disabled', $(this).val().length === 0)
     }).trigger('update')
 
     fields.copy.on('click', function() {
@@ -39,11 +39,15 @@ function init(pokemonList, terms) {
     })
 
     _.each(_.pickBy(pokemonList, 'available'), (opt, n) => fields.pokemon.append(new Option(`${n} - ${opt.name}`, n)))
-    fields.pokemon.select2()
-    $(window).on('resize', () => {
-        fields.pokemon.select2('destroy').select2()
+    if (window.TouchEvent === undefined) {
+        fields.pokemon.select2()
+        $(window).on('resize', () => {
+            fields.pokemon.select2('destroy').select2()
+        })
+    }
+    $('[data-listen]').each(function() {
+        $(this).on($(this).data('listen'), () => fields.search.trigger('update'))
     })
-    $('[data-listen=change]').on('change', () => fields.search.trigger('update'))
 
     $('#home').removeClass('loading')
 }
