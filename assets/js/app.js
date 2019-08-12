@@ -39,12 +39,17 @@ function init(pokemonList, terms) {
     })
 
     _.each(_.pickBy(pokemonList, 'available'), (opt, n) => fields.pokemon.append(new Option(`${n} - ${opt.name}`, n)))
-    if (window.TouchEvent === undefined) {
-        fields.pokemon.select2()
-        $(window).on('resize', () => {
+
+    let previousWidth = $(window).width()
+    fields.pokemon.select2()
+    $(window).on('resize', () => {
+        const currentWidth = $(window).width()
+        if (previousWidth !== currentWidth) {
             fields.pokemon.select2('destroy').select2()
-        })
-    }
+        }
+        previousWidth = currentWidth
+    })
+
     $('[data-listen]').each(function() {
         $(this).on($(this).data('listen'), () => fields.search.trigger('update'))
     })
