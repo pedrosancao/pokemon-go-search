@@ -4,3 +4,11 @@
 .fs-sm {
     font-size: 0.75rem;
 }
+
+.loading {
+    opacity: 0;
+}
+
+#home {
+    transition: opacity linear 0.5s
+}
