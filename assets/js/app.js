@@ -39,6 +39,10 @@ function init(pokemonList, terms) {
     })
 
     _.each(_.pickBy(pokemonList, 'available'), (opt, n) => fields.pokemon.append(new Option(`${n} - ${opt.name}`, n)))
+    fields.pokemon.select2()
+    $(window).on('resize', () => {
+        fields.pokemon.select2('destroy').select2()
+    })
     $('[data-listen=change]').on('change', () => fields.search.trigger('update'))
 
     $('#home').removeClass('loading')
