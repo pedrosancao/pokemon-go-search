@@ -5,17 +5,32 @@ function init(pokemonList, terms) {
         copy: $('#copy')
     ,   search: $('#search')
     ,   pokemon: $('#pokemon')
-    ,   pokemonSpecies: $('#pokemon-species')
+    ,   pokemonSpecies: $('#pokemon-group-species')
+    ,   pokemonRange: $('#pokemon-group-range')
     ,   nick: $('#nick')
     }
+
+    $('[type=radio]').on('click', function(e) {
+        $('[name=' + this.name + ']').not(this).data('check', false)
+        if ($(this).data('check')) this.checked = false
+        $(this).data('check', this.checked)
+    })
 
     fields.search.on('update', function() {
         const conds = []
 
-        conds.push(_.map(fields.pokemon[0].selectedOptions, opt => {
-            let [n, name] = opt.textContent.split(' - ')
-            return fields.pokemonSpecies.prop('checked') ? '+' + name.toLowerCase() : parseInt(n.substr(1))
-        }).join(','))
+        if (fields.pokemonRange[0].checked) {
+            conds.push(_.map(_.chunk(fields.pokemon[0].selectedOptions, 2), chunk => {
+                chunk = chunk.map(opt => parseInt(opt.textContent.substr(1, opt.textContent.indexOf(' - ') - 1)))
+                chunk[1] = chunk[1] || ''
+                return chunk.join('-')
+            }).join(','))
+        } else {
+            conds.push(_.map(fields.pokemon[0].selectedOptions, opt => {
+                let [n, name] = opt.textContent.split(' - ')
+                return fields.pokemonSpecies.prop('checked') ? '+' + name.toLowerCase() : parseInt(n.substr(1))
+            }).join(','))
+        }
 
         conds.push(fields.nick.val())
 
@@ -41,6 +56,7 @@ function init(pokemonList, terms) {
     _.each(_.pickBy(pokemonList, 'available'), (opt, n) => fields.pokemon.append(new Option(`${n} - ${opt.name}`, n)))
 
     let previousWidth = $(window).width()
+    $.fn.select2.defaults.set('closeOnSelect', false    );
     fields.pokemon.select2()
     $(window).on('resize', () => {
         const currentWidth = $(window).width()
