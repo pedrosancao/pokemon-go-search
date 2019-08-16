@@ -46,15 +46,20 @@
                             </select>
                         </div>
                         <div class="form-check form-check-inline mb-3">
-                            <input class="form-check-input" type="radio" id="pokemon-group-species" name="pokemon-group" value="species" data-listen="change">
+                            <input class="form-check-input" type="radio" id="pokemon-group-species" name="pokemon-group" value="species" data-listen="click">
                             <label class="form-check-label" for="pokemon-group-species">Species</label>
                         </div>
                         <div class="form-check form-check-inline mb-3">
-                            <input class="form-check-input" type="radio" id="pokemon-group-range" name="pokemon-group" value="range" data-listen="change">
+                            <input class="form-check-input" type="radio" id="pokemon-group-range" name="pokemon-group" value="range" data-listen="click">
                             <label class="form-check-label" for="pokemon-group-range">Range</label>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" id="nick" placeholder="Pokémon nick" data-listen="input">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <button class="btn btn-outline-secondary" type="button" data-not="nick" data-toggle="button" data-listen="click">!</button>
+                                </div>
+                                <input type="text" class="form-control" id="nick" placeholder="Pokémon nick" data-listen="input">
+                            </div>
                         </div>
                     </div>
                     <div class="tab-pane fade" id="about" role="tabpanel">

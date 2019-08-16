@@ -9,6 +9,18 @@ function init(pokemonList, terms) {
     ,   pokemonRange: $('#pokemon-group-range')
     ,   nick: $('#nick')
     }
+    const exportPokemon = function() {
+        return fields.pokemonRange[0].checked
+            ? _.map(_.chunk(fields.pokemon[0].selectedOptions, 2), chunk => {
+                chunk = chunk.map(opt => parseInt(opt.textContent.substr(1, opt.textContent.indexOf(' - ') - 1)))
+                chunk[1] = chunk[1] || ''
+                return chunk.join('-')
+            }).join(',')
+            : _.map(fields.pokemon[0].selectedOptions, opt => {
+                let [n, name] = opt.textContent.split(' - ')
+                return fields.pokemonSpecies.prop('checked') ? '+' + name.toLowerCase() : parseInt(n.substr(1))
+            }).join(',')
+    }
 
     $('[type=radio]').on('click', function(e) {
         $('[name=' + this.name + ']').not(this).data('check', false)
@@ -19,18 +31,7 @@ function init(pokemonList, terms) {
     fields.search.on('update', function() {
         const conds = []
 
-        if (fields.pokemonRange[0].checked) {
-            conds.push(_.map(_.chunk(fields.pokemon[0].selectedOptions, 2), chunk => {
-                chunk = chunk.map(opt => parseInt(opt.textContent.substr(1, opt.textContent.indexOf(' - ') - 1)))
-                chunk[1] = chunk[1] || ''
-                return chunk.join('-')
-            }).join(','))
-        } else {
-            conds.push(_.map(fields.pokemon[0].selectedOptions, opt => {
-                let [n, name] = opt.textContent.split(' - ')
-                return fields.pokemonSpecies.prop('checked') ? '+' + name.toLowerCase() : parseInt(n.substr(1))
-            }).join(','))
-        }
+        conds.push(exportPokemon.call(fields.pokemon[0]))
 
         conds.push(fields.nick.val())
 
@@ -40,17 +41,18 @@ function init(pokemonList, terms) {
 
     fields.copy.on('click', function() {
         const val = fields.search.val()
+        this.disabled = true;
         fields.search[0].select()
         document.execCommand('copy')
+        fields.search.blur()
         fields.search[0].setSelectionRange(0,0)
         fields.search.val('Search copied to clipboard')
         fields.search.addClass('is-valid text-success')
         setTimeout(() => {
             fields.search.val(val)
             fields.search.removeClass('is-valid text-success')
-            fields.search.blur()
+            this.disabled = false;
         }, 1000)
-        $(this).blur()
     })
 
     _.each(_.pickBy(pokemonList, 'available'), (opt, n) => fields.pokemon.append(new Option(`${n} - ${opt.name}`, n)))
