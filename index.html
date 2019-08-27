@@ -44,17 +44,37 @@
                         <div class="form-group mb-1">
                             <select class="form-control" id="pokemon" multiple data-placeholder="Choose a Pokémon" data-listen="change">
                             </select>
-                        </div>
-                        <div class="form-check form-check-inline mb-3">
-                            <input class="form-check-input" type="radio" id="pokemon-group-species" name="pokemon-group" value="species" data-listen="change">
-                            <label class="form-check-label" for="pokemon-group-species">Species</label>
-                        </div>
-                        <div class="form-check form-check-inline mb-3">
-                            <input class="form-check-input" type="radio" id="pokemon-group-range" name="pokemon-group" value="range" data-listen="change">
-                            <label class="form-check-label" for="pokemon-group-range">Range</label>
+                        </div>  
+                        <div class="form-group">
+                            <div class="btn-group">
+                                <label class="btn">
+                                    <input type="checkbox" class="d-none include-status" data-listen="change" data-for="pokemon" checked>
+                                    <span></span>
+                                </label>
+                                <label class="btn btn-outline-secondary">
+                                    <input class="d-none" type="radio" name="pokemon-handle" value="selection" data-listen="click" checked>
+                                    <span>Selection</span>
+                                </label>
+                                <label class="btn btn-outline-secondary">
+                                    <input class="d-none" type="radio" name="pokemon-handle" value="species" data-listen="click">
+                                    <span>Species</span>
+                                </label>
+                                <label class="btn btn-outline-secondary">
+                                    <input class="d-none" type="radio" name="pokemon-handle" value="range" data-listen="click">
+                                    <span>Range</span>
+                                </label>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" id="nick" placeholder="Pokémon nick" data-listen="input">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <label class="btn">
+                                        <input type="checkbox" class="d-none include-status" data-listen="change" data-for="nick" checked>
+                                        <span></span>
+                                    </label>
+                                </div>
+                                <input type="text" class="form-control" id="nick" placeholder="Pokémon nick" data-listen="input">
+                            </div>
                         </div>
                     </div>
                     <div class="tab-pane fade" id="about" role="tabpanel">

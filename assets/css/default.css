@@ -1,3 +1,4 @@
+/* custom styles */
 .fs-xs {
     font-size: 0.5rem;
 }
@@ -13,6 +14,24 @@
     transition: opacity linear 0.5s
 }
 
+/* bootstrap overrides */
+.input-group .btn:focus,
+.input-group .btn:not(:disabled):not(.disabled).active:focus,
+.input-group .btn:not(:disabled):not(.disabled):active:focus {
+    box-shadow: none;
+}
+.btn-outline-secondary {
+    color: #495057;
+    border-color: #ced4da;
+}
+.btn-outline-secondary:hover,
+.btn-outline-secondary:not(:disabled):not(.disabled):active {
+    color: #495057;
+    border-color: #ced4da;
+    background-color: #e9ecef;
+}
+
+/* select2 overrides */
 .select2-container .select2-selection--single {
     height: calc(1.5em + .75rem + 2px);
 }
